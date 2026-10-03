@@ -24,6 +24,7 @@ API_TARGETS = {
     "/api/wooh":    "https://woohrust.gamestores.app/api/v1/widgets.monitoring",
     "/api/veil":    "https://veilrust.gamestores.app/api/v1/widgets.monitoring",
     "/api/old":    "https://oldrust.store/api/v1/widgets.monitoring",
+    "/api/snow":    "https://free-rust.pro/api/servers.json",
 }
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
