@@ -22,6 +22,7 @@ API_TARGETS = {
     "/api/sunfire": "https://sunfirenew.gamestores.app/api/v1/widgets.monitoring",
     "/api/wooh":    "https://woohrust.gamestores.app/api/v1/widgets.monitoring",
     "/api/veil":    "https://veilrust.gamestores.app/api/v1/widgets.monitoring",
+    "/api/old":    "https://oldrust.store/api/v1/widgets.monitoring",
 }
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
