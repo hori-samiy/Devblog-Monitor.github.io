@@ -18,6 +18,7 @@ API_TARGETS = {
     "/api/dream":     "https://dreamrusttop.gamestores.app/api/v1/widgets.monitoring",
     "/api/sunfire":   "https://sunfirenew.gamestores.app/api/v1/widgets.monitoring",
     "/api/wooh":      "https://woohrust.gamestores.app/api/v1/widgets.monitoring",
+    "/api/old":       "https://oldrust.store/api/v1/widgets.monitoring",
 }
 
 PORT = 8000
