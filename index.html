@@ -122,6 +122,30 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .rv-i{background:#232323;border:1px solid #ffffff14;border-radius:12px;padding:10px 14px}
 .rv-i b{color:#eee;font-size:.85rem}.rv-i .t{float:right;color:#8a8a8a;font-size:.72rem}
 .rv-i .e{margin-left:6px}.rv-i p{margin:6px 0 0;color:#bbb;font-size:.85rem;white-space:pre-wrap;word-break:break-word}
+.add{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#32323266;border:1px solid var(--ac);border-radius:999px;color:var(--hi);cursor:pointer;font:inherit;font-size:.82rem;font-weight:700;letter-spacing:.6px;padding:10px 22px;transition:background .25s,border-color .25s,transform .2s}
+.add:hover{background:#464646b3;border-color:#888}.add:active{transform:scale(.97)}
+.add:focus-visible,.fm-f button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.add b{font-size:1.1rem;line-height:1;font-weight:700}
+.fm-s{color:#8a8a8a;font-size:.82rem;margin:-4px 0 14px}
+.fm-g{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fm-g label{color:#ccc;font-size:.76rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.fm-g label i{color:#8a8a8a;font-style:normal;font-weight:600;text-transform:none;letter-spacing:0}
+.fm-g input,.fm-g textarea{width:100%;background:#151515;border:1px solid #ffffff24;border-radius:10px;color:#eee;font:inherit;font-size:.86rem;padding:10px 12px;resize:vertical}
+.fm-g input:focus,.fm-g textarea:focus{outline:2px solid var(--blue);outline-offset:0}
+.fm-g textarea{min-height:90px}
+.fm-g small{color:#777;font-size:.72rem}
+.fm-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.fm-drop{display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px dashed #ffffff3a;border-radius:12px;color:#aaa;cursor:pointer;font-size:.84rem;font-weight:600;padding:16px;text-align:center;transition:background .2s,border-color .2s}
+.fm-drop:hover,.fm-drop.over{background:#ffffff0d;border-color:#ffffff80;color:#fff}
+.fm-drop input{display:none}
+.fm-pv{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:8px}
+.fm-pv div{position:relative;aspect-ratio:16/10;border-radius:8px;overflow:hidden;border:1px solid #ffffff1f;background:#0d0d0d}
+.fm-pv img{width:100%;height:100%;object-fit:cover;display:block}
+.fm-pv button{position:absolute;top:3px;right:3px;width:20px;height:20px;border:0;border-radius:50%;background:#000000b3;color:#fff;cursor:pointer;font-size:14px;line-height:1;padding:0}
+.fm-pv button:hover{background:#000}
+.fm-msg{font-size:.8rem;min-height:1.2em;margin:4px 0 10px;color:#8a8a8a}.fm-msg.err{color:var(--bad)}.fm-msg.ok{color:var(--ok)}
+.fm-go{width:100%;height:44px;border:0;border-radius:999px;background:#fff;color:#0f0f0f;cursor:pointer;font:inherit;font-size:.85rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.fm-go:disabled{opacity:.5;cursor:default}
 .cr{text-align:center;color:var(--mu);font-size:.8rem;margin-top:30px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media(max-width:480px){.grid{grid-template-columns:1fr}}
@@ -132,6 +156,7 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
   <div class="head">
     <h1>Мониторинг <span class="acc">DEVBLOGS</span></h1>
     <p class="sub"><span class="live"></span>Онлайн обновляется автоматически</p>
+    <button type="button" class="add" id="addBtn"><b>＋</b>Добавить свой проект</button>
   </div>
   <div class="tot">
     <div class="st"><b id="tOn">0</b><span>игроков онлайн</span></div>
@@ -142,6 +167,27 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
   <p class="cr">by hori</p>
 </div>
 <div class="mo" id="mo"><div class="md" id="md"></div></div>
+<div class="mo" id="mo2" role="dialog" aria-modal="true" aria-labelledby="fmT"><div class="md">
+  <button class="x" data-fc="1" aria-label="Закрыть" type="button">×</button>
+  <h2 id="fmT">Анкета проекта</h2>
+  <p class="fm-s">Заполните данные — анкета уйдёт на модерацию. Не более 3 анкет в сутки.</p>
+  <form id="fmf" class="fm-f" autocomplete="off" novalidate>
+    <div class="fm-g"><label for="f_name">Название</label><input id="f_name" name="name" maxlength="80" required></div>
+    <div class="fm-g"><label for="f_site">Сайт</label><input id="f_site" name="site" type="url" maxlength="200" placeholder="https://example.com" required></div>
+    <div class="fm-g"><label for="f_tags">Теги</label><input id="f_tags" name="tags" maxlength="200" placeholder="X1–X3, MAX4" required></div>
+    <div class="fm-g"><label for="f_desc">Описание</label><textarea id="f_desc" name="desc" maxlength="1000" required></textarea></div>
+    <div class="fm-g"><label for="f_socials">Соцсети</label><input id="f_socials" name="socials" maxlength="500" placeholder="discord:https://discord.gg/…, vk:https://vk.com/…" required><small>Формат: тип:ссылка, через запятую</small></div>
+    <div class="fm-g"><label for="f_icon">Иконка</label><input id="f_icon" name="icon" type="url" maxlength="300" placeholder="https://site.ru/icon.png" required></div>
+    <div class="fm-g"><label for="f_dev">Devblog</label><input id="f_dev" name="dev" maxlength="20" placeholder="Номер выпуска, например 12" required></div>
+    <div class="fm-g"><label>Скриншоты <i>(необязательно)</i></label>
+      <label class="fm-drop" id="fmDrop"><input type="file" id="fmFiles" accept="image/png,image/jpeg,image/gif,image/webp" multiple>＋ Выбрать или перетащить файлы</label>
+      <small>До 10 изображений, каждое до 5 МБ, всего до 8 МБ</small>
+      <div class="fm-pv" id="fmPv"></div></div>
+    <input class="fm-hp" name="website2" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="fm-msg" id="fmMsg" role="status"></div>
+    <button class="fm-go" id="fmGo" type="submit">Отправить анкету</button>
+  </form>
+</div></div>
 
 <script>
 // ===== servers.txt =====
@@ -542,7 +588,7 @@ function openM(i) {
   }).join("") + '</div>' : '';
   $("md").innerHTML = '<button class="x" data-c="1" aria-label="Закрыть">×</button>' +
     '<h2>' + esc(s.name) + '</h2>' +
-    ((s.rep || s.dev) ? '<div class="vers">' + (s.rep ? '<span class="ver">Репутация: ' + esc(s.rep) + '</span>' : '') + (s.dev ? '<span class="dev">DEVBLOG #' + esc(s.dev) + '</span>' : '') + '</div>' : '') +
+    (s.dev ? '<div class="vers"><span class="dev">DEVBLOG #' + esc(s.dev) + '</span></div>' : '') +
     '<div id="shw"></div>' +
     (s.desc ? '<p>' + esc(s.desc) + '</p>' : '') + tagsHtml +
     '<div id="svw">' + svHtml(s) + '</div>' + rvShell(s) + socialsHtml;
@@ -561,7 +607,67 @@ function copyIp(b) {
   var done = function() { b.classList.add("ok"); lab.textContent = "Скопировано"; setTimeout(function() { b.classList.remove("ok"); lab.textContent = old; }, 1400); };
   try { navigator.clipboard.writeText(b.dataset.ip).then(done, done); } catch (e) { done(); }
 }
-document.addEventListener("submit", function(e) { if (e.target.id === "rvf") { e.preventDefault(); rvSubmit(); } });
+document.addEventListener("submit", function(e) {
+  if (e.target.id === "rvf") { e.preventDefault(); rvSubmit(); }
+  else if (e.target.id === "fmf") { e.preventDefault(); fmSubmit(); }
+});
+
+// ===== анкета проекта =====
+var FM_FILES = [], FM_MAX = 10, FM_FILE = 5 * 1024 * 1024, FM_TOTAL = 8 * 1024 * 1024;
+function fmMsg(t, cls) { var m = $("fmMsg"); m.className = 'fm-msg' + (cls ? ' ' + cls : ''); m.textContent = t || ''; }
+function fmOpen() { fmMsg(''); $("mo2").classList.add("show"); setTimeout(function() { $("f_name").focus(); }, 50); }
+function fmClose() { $("mo2").classList.remove("show"); }
+function fmPreview() {
+  $("fmPv").innerHTML = '';
+  FM_FILES.forEach(function(f, i) {
+    var d = document.createElement('div'), im = document.createElement('img'), b = document.createElement('button');
+    im.src = URL.createObjectURL(f); im.alt = f.name;
+    im.onload = function() { URL.revokeObjectURL(im.src); };
+    b.type = 'button'; b.textContent = '×'; b.setAttribute('aria-label', 'Убрать'); b.dataset.rm = i;
+    d.appendChild(im); d.appendChild(b); $("fmPv").appendChild(d);
+  });
+}
+function fmAdd(list) {
+  var err = '';
+  Array.prototype.forEach.call(list, function(f) {
+    var total = FM_FILES.reduce(function(a, x) { return a + x.size; }, 0);
+    if (!/^image\/(png|jpeg|gif|webp)$/.test(f.type)) err = 'Допустимы только PNG, JPG, GIF, WEBP.';
+    else if (FM_FILES.length >= FM_MAX) err = 'Не больше ' + FM_MAX + ' скриншотов.';
+    else if (f.size > FM_FILE) err = 'Файл «' + f.name + '» больше 5 МБ.';
+    else if (total + f.size > FM_TOTAL) err = 'Суммарно не больше 8 МБ.';
+    else FM_FILES.push(f);
+  });
+  fmMsg(err, err ? 'err' : '');
+  fmPreview();
+  $("fmFiles").value = '';
+}
+function fmSubmit() {
+  var form = $("fmf"), go = $("fmGo");
+  for (var i = 0; i < form.elements.length; i++) {
+    var el = form.elements[i];
+    if (el.required && !el.value.trim()) { fmMsg('Заполните все обязательные поля.', 'err'); el.focus(); return; }
+    if (el.type === 'url' && el.value.trim() && !/^https?:\/\/\S+\.\S+$/i.test(el.value.trim())) { fmMsg('Укажите корректную ссылку (https://…).', 'err'); el.focus(); return; }
+  }
+  var fd = new FormData(form);
+  FM_FILES.forEach(function(f) { fd.append('shots', f, f.name); });
+  go.disabled = true; fmMsg('Отправляем…');
+  fetch('/api/submit', {method: 'POST', body: fd})
+    .then(function(r) { return r.json().catch(function() { return {}; }).then(function(d) { if (!r.ok) throw new Error(d.error || 'Ошибка отправки'); return d; }); })
+    .then(function() {
+      fmMsg('Спасибо! Анкета отправлена.', 'ok');
+      form.reset(); FM_FILES = []; fmPreview();
+      setTimeout(fmClose, 1800);
+    })
+    .catch(function(e) { fmMsg(e.message || 'Ошибка отправки', 'err'); })
+    .then(function() { go.disabled = false; });
+}
+(function() {
+  var dz = $("fmDrop");
+  $("fmFiles").addEventListener("change", function(e) { fmAdd(e.target.files); });
+  ['dragenter', 'dragover'].forEach(function(n) { dz.addEventListener(n, function(e) { e.preventDefault(); dz.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function(n) { dz.addEventListener(n, function(e) { e.preventDefault(); dz.classList.remove('over'); }); });
+  dz.addEventListener("drop", function(e) { fmAdd(e.dataTransfer.files); });
+})();
 function copy(b) {
   var t = b.dataset.s, label = b.firstChild.textContent;
   var done = function() {
@@ -573,7 +679,10 @@ function copy(b) {
 }
 document.addEventListener("click", function(e) {
   var t = e.target.closest("button") || e.target;
-  if (t.classList.contains("pill")) { F = t.dataset.v; pills(); render(); }
+  if (t.id === "addBtn") fmOpen();
+  else if (t.dataset.fc || e.target === $("mo2")) fmClose();
+  else if (t.dataset.rm !== undefined) { FM_FILES.splice(+t.dataset.rm, 1); fmPreview(); fmMsg(''); }
+  else if (t.classList.contains("pill")) { F = t.dataset.v; pills(); render(); }
   else if (t.classList.contains("btn")) openM(t.dataset.i);
   else if (t.classList.contains("ip")) copy(t);
   else if (t.classList.contains("sv-c")) copyIp(t);
@@ -595,6 +704,7 @@ document.addEventListener("error", function(e) {
   }
 }, true);
 document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape" && $("mo2").classList.contains("show")) { fmClose(); return; }
   if (cur === null) return;
   var ae = document.activeElement;
   if (ae && /^(INPUT|TEXTAREA)$/.test(ae.tagName) && e.key !== 'Escape') return;
