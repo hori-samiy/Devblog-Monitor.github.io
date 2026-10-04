@@ -33,6 +33,7 @@ API_TARGETS = {
     "/api/veil":    "https://veilrust.gamestores.app/api/v1/widgets.monitoring",
     "/api/old":     "https://oldrust.store/api/v1/widgets.monitoring",
     "/api/snow":    "https://free-rust.pro/api/servers.json",
+    "/api/eclipse":    "https://eclipseshop.gamestores.app/api/v1/widgets.monitoring",
 }
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
