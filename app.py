@@ -1,5 +1,6 @@
 from flask import Flask, request, Response, send_from_directory, jsonify
 import reviews
+import submissions
 import urllib.request
 import urllib.error
 import os
@@ -8,6 +9,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__, static_folder=None)
+app.config["MAX_CONTENT_LENGTH"] = 12 * 1024 * 1024  # анкета со скриншотами
 
 API_TARGETS = {
     "/api/shock":   "https://shockproject.pro/api/servers",
@@ -81,6 +83,18 @@ def project_reviews(project):
     body = request.get_json(silent=True) or {}
     data, code = reviews.add(project, client_ip(), body.get("name"), body.get("comment"), body.get("vote"))
     return jsonify(data), code
+
+
+@app.route("/api/submit", methods=["POST"])
+def submit_form():
+    uploads = [(f.filename, f.read(submissions.MAX_FILE + 1)) for f in request.files.getlist("shots") if f and f.filename]
+    data, code = submissions.submit(client_ip(), request.form, uploads)
+    return jsonify(data), code
+
+
+@app.errorhandler(413)
+def too_large(_):
+    return jsonify({"error": "Файлы слишком большие (максимум 8 МБ суммарно)"}), 413
 
 
 @app.route("/api/<name>")
