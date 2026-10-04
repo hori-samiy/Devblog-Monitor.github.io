@@ -26,6 +26,10 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .st{flex:1;min-width:150px;background:linear-gradient(180deg,var(--card1),var(--card2));border:1px solid var(--bd);border-radius:18px;padding:16px 20px}
 .st b{display:block;color:var(--hi);font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums}
 .st span{color:var(--mu);font-size:.8rem}
+.notice{display:flex;gap:12px;align-items:flex-start;margin:-4px 0 22px;padding:14px 18px;border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-radius:16px;background:color-mix(in srgb,var(--bad) 12%,transparent);color:var(--tx)}
+.notice svg{flex:0 0 20px;margin-top:2px;color:var(--bad)}
+.notice b{display:block;color:var(--hi);font-size:.92rem;font-weight:700;margin-bottom:2px}
+.notice span{color:var(--tx);font-size:.86rem;opacity:.9}
 .fl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px}
 .pill{background:#ffffff0a;border:1px solid var(--bd);border-radius:999px;color:var(--mu);cursor:pointer;font:inherit;font-size:.86rem;font-weight:600;padding:9px 20px;transition:background .2s,color .2s}
 .pill:hover{color:var(--hi)}
@@ -41,6 +45,14 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .bgs{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
 .dev{border:1px solid color-mix(in srgb,var(--blue) 55%,transparent);background:color-mix(in srgb,var(--blue) 14%,transparent);border-radius:999px;color:var(--blue);font-size:.72rem;font-weight:700;letter-spacing:.8px;padding:3px 11px;white-space:nowrap;text-transform:uppercase}
 .nm{color:var(--hi);font-size:1.12rem;font-weight:700;line-height:1.2;flex:1;min-width:0}
+.thr{position:relative;display:inline-block;border:1px solid;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.8px;padding:3px 11px;white-space:nowrap;text-transform:uppercase;cursor:help;outline:none}
+.thr[data-k="red"]{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 55%,transparent);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.thr[data-k="yellow"]{color:var(--mid);border-color:color-mix(in srgb,var(--mid) 55%,transparent);background:color-mix(in srgb,var(--mid) 14%,transparent)}
+.thr[data-k="green"]{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 55%,transparent);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.thr[data-k="white"]{color:#fff;border-color:#ffffff66;background:#ffffff1f}
+.thr:after{content:attr(data-tip);position:absolute;z-index:20;left:0;top:calc(100% + 9px);width:max-content;max-width:240px;background:#111;color:#eee;border:1px solid #ffffff2e;border-radius:10px;font-size:.76rem;font-weight:500;letter-spacing:0;line-height:1.35;padding:8px 11px;white-space:normal;text-transform:none;text-align:left;pointer-events:none;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s,transform .18s;box-shadow:0 8px 24px #00000080}
+.thr:hover:after,.thr:focus:after{opacity:1;visibility:visible;transform:none}
+.thr:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .rep{border:1px solid var(--bd);border-radius:999px;color:var(--mid);font-size:.78rem;font-weight:700;padding:3px 11px;white-space:nowrap}
 .vers{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .ver{border:1px solid var(--bd);border-radius:999px;color:var(--mu);font-size:.72rem;font-weight:600;padding:2px 10px}
@@ -122,6 +134,9 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .rv-i{background:#232323;border:1px solid #ffffff14;border-radius:12px;padding:10px 14px}
 .rv-i b{color:#eee;font-size:.85rem}.rv-i .t{float:right;color:#8a8a8a;font-size:.72rem}
 .rv-i .e{margin-left:6px}.rv-i p{margin:6px 0 0;color:#bbb;font-size:.85rem;white-space:pre-wrap;word-break:break-word}
+.inst{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 0 4px;height:44px;border-radius:999px;background:#fff;color:#0f0f0f;font-size:.85rem;font-weight:700;letter-spacing:.5px;text-decoration:none;text-transform:uppercase;transition:transform .2s,opacity .2s}
+.inst:hover{opacity:.88}.inst:active{transform:scale(.98)}
+.inst:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .add{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#32323266;border:1px solid var(--ac);border-radius:999px;color:var(--hi);cursor:pointer;font:inherit;font-size:.82rem;font-weight:700;letter-spacing:.6px;padding:10px 22px;transition:background .25s,border-color .25s,transform .2s}
 .add:hover{background:#464646b3;border-color:#888}.add:active{transform:scale(.97)}
 .add:focus-visible,.fm-f button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -162,6 +177,10 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
     <div class="st"><b id="tOn">0</b><span>игроков онлайн</span></div>
     <div class="st"><b id="tSrv">0</b><span>проектов</span></div>
   </div>
+  <div class="notice" role="alert">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    <div><b>Внимание, уважаемые посетители сайта</b><span>Раздел комментарии, а также подача анкеты на добавление сервера временно не работают.</span></div>
+  </div>
   <div class="fl" id="fl"></div>
   <div class="grid" id="list"></div>
   <p class="cr">by hori</p>
@@ -191,14 +210,25 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 
 <script>
 // ===== servers.txt =====
-// НАЗВАНИЕ|ССЫЛКА НА САЙТ|ТЕГИ|РЕПУТАЦИЯ|API|ОПИСАНИЕ|СОЦСЕТИ|МАКС_ОНЛАЙН|ИКОНКА|DEVBLOG|ЦВЕТ|СКРИНШОТЫ
-// ИКОНКА — ссылка на картинку или путь (icons/magix.png); если пусто/не грузится — буква.
-// DEVBLOG — номер выпуска (например 12); если пусто — плашка не показывается.
-// ЦВЕТ — цвет свечения иконки: #RRGGBB или RRGGBB; если пусто — берётся из палитры.
-// СКРИНШОТЫ — необязательно. По умолчанию берутся из папки screenshots/serverN/1.png, 2.png, 3.png…
-// (N — номер проекта в этом файле по порядку: первая строка = server1). Колонка 12 — свой список через ';'.
-// В поле API можно указать несколько URL через ';' — они будут сложены.
-// К URL можно добавить фильтр по имени сервера: /api/magix?name=MAGIX
+// НАЗВАНИЕ|САЙТ|ТЕГИ|API|ОПИСАНИЕ|СОЦСЕТИ|ИКОНКА|DEVBLOG|ЦВЕТ|[СКРИНШОТЫ]|[install:ССЫЛКА]|[УГРОЗА]
+// ИКОНКА — ссылка или путь (icons/magix.png); DEVBLOG — номер выпуска; ЦВЕТ — #RRGGBB (свечение иконки).
+// СКРИНШОТЫ — ссылки через ';' (иначе берутся из screenshots/serverN/1.png, 2.png…).
+// API — можно несколько URL через ';' и фильтр по имени: /api/magix?name=MAGIX
+// ===== уровень угрозы проекта: овал в описании справа от DEVBLOG =====
+// Тексты подсказок при наведении на овал — меняйте здесь:
+var THREAT_INFO = {
+  red:    'В данном проекте обнаружены скрытые угрозы. Играйте на свой страх и риск.',
+  yellow: 'Есть подозрительные файлы или жалобы игроков. Будьте осторожны.',
+  green:  'На данном проекте вирусных угроз не обнаружено.',
+  white:  'Проект не был проверен на наличие угроз. Играйте на свой страх и риск.'
+};
+// УГРОЗА — последний столбец servers.txt: red / yellow / green / white (или по-русски). Нет значения — белый.
+var THREAT_WORDS = {
+  red: 'red', 'красный': 'red', 'красная': 'red',
+  yellow: 'yellow', 'жёлтый': 'yellow', 'желтый': 'yellow', 'жёлтая': 'yellow', 'желтая': 'yellow',
+  green: 'green', 'зелёный': 'green', 'зеленый': 'green', 'зелёная': 'green', 'зеленая': 'green',
+  white: 'white', 'белый': 'white', 'белая': 'white'
+};
 var SERVERS = [];
 var REFRESH_MS = 15000;
 var PALETTE = ['4ade80','60a5fa','fbbf24','f472b6','a78bfa','34d399','f97316','06b6d4','ec4899','8b5cf6'];
@@ -207,27 +237,36 @@ function parseServers(text) {
   var res = [];
   text.split('\n').map(function(l){return l.trim()}).filter(function(l){return l && l[0] !== '#'}).forEach(function(line) {
     var p = line.split('|').map(function(x){return x.trim()});
-    if (p.length < 5 || !p[0]) return;
+    if (p.length < 4 || !p[0]) return;
     var socials = [];
-    (p[6] || '').split(',').forEach(function(s) {
+    (p[5] || '').split(',').forEach(function(s) {
       var kv = s.trim().split(':');
       if (kv.length >= 2 && kv[0]) socials.push({type: kv[0].trim().toLowerCase(), url: kv.slice(1).join(':').trim()});
     });
-    var color = (p[10] || '').trim();
+    var install = '';
+    p = p.filter(function(x) {
+      var m = /^(install|установить|установка)\s*:\s*(https?:\/\/\S+)$/i.exec(x);
+      if (m) { install = m[2]; return false; }
+      return true;
+    });
+    var threat = 'white', lastW = (p[p.length - 1] || '').toLowerCase();
+    if (p.length >= 5 && THREAT_WORDS.hasOwnProperty(lastW)) { threat = THREAT_WORDS[lastW]; p.pop(); }
+    var color = (p[8] || '').trim();
     if (color && !/^#/.test(color)) color = '#' + color;
     if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color)) color = '';
     res.push({
       name: p[0],
       site: p[1],
       tags: p[2] ? p[2].split(',').map(function(t){return t.trim()}).filter(Boolean) : [],
-      rep: p[3],
-      api: p[4],
-      desc: p[5] || '',
+      api: p[3],
+      desc: p[4] || '',
       socials: socials,
-      max: parseInt(p[7], 10) || 0,
-      icon: p[8] || '',
-      dev: (p[9] || '').replace(/^#/, ''),
-      shotsCfg: (p[11] || '').split(';').map(function(x){return x.trim()}).filter(function(x){return /^(https?:\/\/|[\w.\/-]+$)/i.test(x)}),
+      max: 0,
+      icon: p[6] || '',
+      dev: (p[7] || '').replace(/^#/, ''),
+      shotsCfg: (p[9] || '').split(';').map(function(x){return x.trim()}).filter(function(x){return /^(https?:\/\/|[\w.\/-]+$)/i.test(x)}),
+      threat: threat,
+      install: install,
       list: [],
       likes: 0,
       dislikes: 0,
@@ -426,7 +465,7 @@ function refreshAll() {
 // ===== UI =====
 var SOCIAL_ICONS = {
   discord: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>',
-  vk: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974H.439C-.049 5.73-.176 6.068.146 6.59c.902 1.457 1.715 2.943 3.207 5.314 1.852 2.942 3.722 3.345 4.342 3.345.477 0 .744-.248.744-.889v-2.315c0-1.285.442-1.482 1.116-1.001 1.271.908 2.428 2.635 3.34 3.805.602.771 1.239.602 1.239.602z"/></svg>',
+  vk: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg>',
   telegram: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
   youtube: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
   github: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>',
@@ -453,6 +492,16 @@ function pills() {
   $("fl").innerHTML = ["all"].concat(allTags()).map(function(v) {
     return '<button class="pill' + (v === F ? ' on' : '') + '" data-v="' + esc(v) + '">' + (v === "all" ? "Все" : esc(v)) + '</button>';
   }).join("");
+}
+function installHtml(s) {
+  if (!s.install) return '';
+  return '<a class="inst" href="' + esc(safeUrl(s.install)) + '" target="_blank" rel="noopener noreferrer">' +
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg>Установить</a>';
+}
+var THREAT_LABEL = {red: 'Красный', yellow: 'Жёлтый', green: 'Зелёный', white: 'Белый'};
+function threatHtml(s) {
+  var t = (THREAT_INFO[s.threat] || '').replace(/"/g, '&quot;');
+  return '<span class="thr" data-k="' + s.threat + '" data-tip="' + esc(t) + '" tabindex="0" aria-label="' + esc(THREAT_LABEL[s.threat]) + ': ' + esc(t) + '">' + THREAT_LABEL[s.threat] + '</span>';
 }
 function render() {
   var items = SERVERS.filter(function(s) {
@@ -588,9 +637,9 @@ function openM(i) {
   }).join("") + '</div>' : '';
   $("md").innerHTML = '<button class="x" data-c="1" aria-label="Закрыть">×</button>' +
     '<h2>' + esc(s.name) + '</h2>' +
-    (s.dev ? '<div class="vers"><span class="dev">DEVBLOG #' + esc(s.dev) + '</span></div>' : '') +
+    '<div class="vers">' + (s.dev ? '<span class="dev">DEVBLOG #' + esc(s.dev) + '</span>' : '') + threatHtml(s) + '</div>' +
     '<div id="shw"></div>' +
-    (s.desc ? '<p>' + esc(s.desc) + '</p>' : '') + tagsHtml +
+    (s.desc ? '<p>' + esc(s.desc) + '</p>' : '') + tagsHtml + installHtml(s) +
     '<div id="svw">' + svHtml(s) + '</div>' + rvShell(s) + socialsHtml;
   $("md").scrollTop = 0;
   $("mo").classList.add("show");
