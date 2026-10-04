@@ -6,12 +6,12 @@
 <title>Мониторинг серверов</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
 <style>
-:root{--bg:#0f0f0f;--card1:#282828;--card2:#161616;--tx:#ddd;--hi:#fff;--mu:#8a8a8a;--bd:#ffffff17;--ac:#555;--ok:#4ade80;--mid:#fbbf24;--bad:#f87171;--blue:#738dff;--on:#0f0f0f;
+:root{--ease:cubic-bezier(.22,1,.36,1);--bg:#0f0f0f;--card1:#282828;--card2:#161616;--tx:#ddd;--hi:#fff;--mu:#8a8a8a;--bd:#ffffff17;--ac:#555;--ok:#4ade80;--mid:#fbbf24;--bad:#f87171;--blue:#738dff;--on:#0f0f0f;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f4f4;--card1:#fff;--card2:#f0f0f0;--tx:#333;--hi:#111;--mu:#666;--bd:#00000018;--ac:#bbb;--on:#fff;color-scheme:light}}
 :root[data-theme="dark"]{color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--tx);font-family:Montserrat,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
 .w{max-width:1100px;margin:0 auto;padding:28px 18px 56px}
@@ -31,12 +31,13 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .notice b{display:block;color:var(--hi);font-size:.92rem;font-weight:700;margin-bottom:2px}
 .notice span{color:var(--tx);font-size:.86rem;opacity:.9}
 .fl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px}
-.pill{background:#ffffff0a;border:1px solid var(--bd);border-radius:999px;color:var(--mu);cursor:pointer;font:inherit;font-size:.86rem;font-weight:600;padding:9px 20px;transition:background .2s,color .2s}
+.pill{background:#ffffff0a;border:1px solid var(--bd);border-radius:999px;color:var(--mu);cursor:pointer;font:inherit;font-size:.86rem;font-weight:600;padding:9px 20px;transition:background .25s var(--ease),color .25s,border-color .25s,transform .2s var(--ease)}
+.pill:active{transform:scale(.95)}
 .pill:hover{color:var(--hi)}
 .pill:focus-visible,.btn:focus-visible,.ip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .pill.on{background:var(--hi);border-color:var(--hi);color:var(--on)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px}
-.card{position:relative;background:linear-gradient(180deg,var(--card1),var(--card2));border:1px solid var(--bd);border-radius:22px;padding:22px 22px 18px;box-shadow:0 22px 46px #00000050;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s}
+.card{position:relative;background:linear-gradient(180deg,var(--card1),var(--card2));border:1px solid var(--bd);border-radius:22px;padding:22px 22px 18px;box-shadow:0 22px 46px #00000050;transition:transform .35s var(--ease),border-color .3s}
 .card:hover{transform:translateY(-4px);border-color:#ffffff40}
 .top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
 .dot{flex:0 0 52px;height:52px;border-radius:16px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:color-mix(in srgb,var(--c) 18%,var(--card2));box-shadow:0 0 18px color-mix(in srgb,var(--c) 55%,transparent)}
@@ -72,11 +73,11 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .btn{background:#32323266;border:1px solid var(--ac);border-radius:50px;color:var(--hi);cursor:pointer;font:inherit;font-size:.78rem;font-weight:600;letter-spacing:1px;padding:0 18px;height:42px;text-transform:uppercase;transition:background .25s,border-color .25s}
 .btn:hover{background:#464646b3;border-color:#888}
 .empty{grid-column:1/-1;text-align:center;color:var(--mu);padding:40px 0}
-.mo{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:18px;background:#000000d9;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.mo.show{display:flex;animation:fi .25s}
+.mo{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:18px;background:#000000ea;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s var(--ease),visibility 0s linear .3s}
+.mo.show{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s var(--ease),visibility 0s}
 @keyframes fi{from{opacity:0}to{opacity:1}}
-.md{position:relative;width:100%;max-width:460px;max-height:85%;overflow:auto;background:#1a1a1a;color:#ddd;border:1px solid #ffffff1a;border-radius:18px;padding:30px 26px 26px;box-shadow:0 20px 60px #00000080;animation:dr .3s}
-@keyframes dr{from{opacity:0;transform:translateY(-24px) scale(.96)}to{opacity:1;transform:none}}
+.md{position:relative;width:100%;max-width:460px;max-height:85%;overflow:auto;background:#1a1a1a;color:#ddd;border:1px solid #ffffff1a;border-radius:18px;padding:30px 26px 26px;box-shadow:0 20px 60px #00000080;opacity:0;transform:translateY(22px) scale(.97);transition:transform .45s var(--ease),opacity .3s var(--ease)}
+.mo.show .md{opacity:1;transform:none}
 .md h2{color:#fff;font-size:1.4rem;font-weight:700;margin-bottom:12px}
 .md p{margin:12px 0;color:#bbb}
 .md .ver{color:#aaa;border-color:#ffffff24}
@@ -91,8 +92,20 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .sh{position:relative;margin:4px 0 16px;border-radius:14px;overflow:hidden;background:#0d0d0d;border:1px solid #ffffff1a;aspect-ratio:16/9;touch-action:pan-y;user-select:none}
 .sh-t{display:flex;height:100%;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 .sh-t figure{flex:0 0 100%;height:100%;margin:0;display:flex;align-items:center;justify-content:center;color:#666;font-size:.8rem}
-.sh-t img{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none}
-.sh-b{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #ffffff2e;border-radius:50%;background:#000000a6;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.sh-t img{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;cursor:zoom-in}
+
+.lb{position:fixed;inset:0;z-index:80;display:block;background:#000000fc;overscroll-behavior:contain;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s var(--ease),visibility 0s linear .25s}
+.lb.show{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .25s var(--ease),visibility 0s}
+.lb-s.drag img{transition:none!important}
+.lb-s{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;user-select:none}
+.lb-s img{max-width:96vw;max-height:90vh;object-fit:contain;transform-origin:center;will-change:transform;transition:transform .22s var(--ease);-webkit-user-drag:none;user-select:none}
+.lb-b{position:absolute;z-index:2;width:46px;height:46px;border:1px solid #ffffff33;border-radius:50%;background:#1a1a1ab3;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lb-b:hover{background:#333c}.lb-b:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.lb-x{top:max(14px,env(safe-area-inset-top));right:14px}.lb-p{left:14px;top:50%;margin-top:-23px}.lb-n{right:14px;top:50%;margin-top:-23px}
+.lb-c{position:absolute;z-index:2;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);background:#1a1a1ab3;border-radius:999px;color:#fff;font-size:.78rem;font-weight:600;padding:5px 14px;text-align:center;white-space:nowrap}
+.lb-c small{color:#aaa;font-weight:500;margin-left:8px}
+@media(max-width:600px){.lb-p,.lb-n{display:none}}
+.sh-b{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #ffffff2e;border-radius:50%;background:#000000a6;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
 .sh-b:hover{background:#000000e6;transform:translateY(-50%) scale(1.08)}
 .sh-b:focus-visible,.sh-d i:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .sh-p{left:10px}.sh-n{right:10px}
@@ -161,9 +174,32 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
 .fm-msg{font-size:.8rem;min-height:1.2em;margin:4px 0 10px;color:#8a8a8a}.fm-msg.err{color:var(--bad)}.fm-msg.ok{color:var(--ok)}
 .fm-go{width:100%;height:44px;border:0;border-radius:999px;background:#fff;color:#0f0f0f;cursor:pointer;font:inherit;font-size:.85rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .fm-go:disabled{opacity:.5;cursor:default}
+.cal-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:18px 0 10px;color:#fff;font-size:.95rem;font-weight:700}
+.cal-h small{color:#8a8a8a;font-weight:600;font-size:.78rem;text-align:right}
+.cal-s{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:thin;scrollbar-color:#ffffff30 transparent;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.cal-d{position:relative;flex:0 0 58px;height:76px;border-radius:10px;background:#2a2a2a;border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.cal-d i{font-style:normal;font-size:.68rem;font-weight:600;color:#8a8a8a;text-transform:uppercase}
+.cal-d b{font-size:1.2rem;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1}
+.cal-d em{position:absolute;top:4px;font-style:normal;font-size:.58rem;font-weight:700;color:#738dff;text-transform:uppercase;letter-spacing:.4px}
+.cal-d u{position:absolute;bottom:5px;text-decoration:none;font-size:.58rem;font-weight:800;letter-spacing:.6px;color:#fff;opacity:0}
+.cal-d.today{background:#006efe33;border:1px dashed #006efe}
+.cal-d.wipe{background:#b7303233;border-color:#b73032}
+.cal-d.wipe u{opacity:1}
+.cal-d.wipe b{color:#ff8a8c}
+.cal-e{color:#8a8a8a;font-size:.85rem;padding:2px 0 6px}
+.cal-lg{display:flex;gap:14px;color:#8a8a8a;font-size:.72rem;font-weight:600}
+.cal-lg span:before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:#b73032}
+.cal-lg span+span:before{background:#006efe}
 .cr{text-align:center;color:var(--mu);font-size:.8rem;margin-top:30px}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media(max-width:480px){.grid{grid-template-columns:1fr}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.98)}}
+.card.in{animation:cardIn .6s var(--ease) backwards}
+.bar[hidden]{display:none}
+.bar span{transition:width .9s var(--ease)}
+.sv-b span{transition:width .8s var(--ease)}
+.sh{animation:fi .45s var(--ease)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:480px){.grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -186,6 +222,13 @@ h1{color:var(--hi);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spa
   <p class="cr">by hori</p>
 </div>
 <div class="mo" id="mo"><div class="md" id="md"></div></div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Просмотр скриншота">
+  <div class="lb-s" id="lbs"><img id="lbi" alt="" draggable="false"></div>
+  <button class="lb-b lb-x" data-lb="x" type="button" aria-label="Закрыть"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <button class="lb-b lb-p" data-lb="-1" type="button" aria-label="Назад"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="lb-b lb-n" data-lb="1" type="button" aria-label="Вперёд"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  <div class="lb-c" id="lbc"></div>
+</div>
 <div class="mo" id="mo2" role="dialog" aria-modal="true" aria-labelledby="fmT"><div class="md">
   <button class="x" data-fc="1" aria-label="Закрыть" type="button">×</button>
   <h2 id="fmT">Анкета проекта</h2>
@@ -283,8 +326,8 @@ function parseServers(text) {
 // Поддерживает:
 //   ShockProject:   {success, response:{servers:[{playing, online:bool}]}}
 //   MYRUST:         {total_players, servers:[{online, players}]}
-//   BUMMER RUST:    [{runtime:{players, maxPlayers}}]
-//   YRS:            {status, response:{Players, MaxPlayers}} (один сервер)
+//   BUMMER RUST:    [{runtime:{players, maxPlayers}, publicName:{ru:"…"}}]
+//   YRS:            {status, response:{Players, MaxPlayers, HostName}} (один сервер)
 //   HIRUST:         {success, data:{servers:[{players, maxPlayers}]}}
 //   Gamestores.app: {result, data:{total:{players, playersMax}, servers:[{players, playersMax}]}}
 //   Общий случай:   players / playing / online / runtime / response / playersMax / maxPlayers
@@ -353,8 +396,32 @@ function maxOf(s) {
   return parseInt(v, 10) || 0;
 }
 
-// Имя и статус отдельного сервера (разные API называют поля по-разному).
+// Имя отдельного сервера (разные API называют поля по-разному).
+// Приоритет:
+//   1) response.HostName (YRS)
+//   2) publicName.ru / publicName.en (BUMMER)
+//   3) name / title / serverName / server_name / hostname / host
 function nameOf(s, i) {
+  if (!s || typeof s !== 'object') return 'Сервер ' + (i + 1);
+
+  // YRS: {response:{HostName:"Your Rusty Story - 217 Devblog", ...}}
+  if (s.response && typeof s.response === 'object' && s.response.HostName) {
+    return String(s.response.HostName).trim();
+  }
+  if (s.HostName) return String(s.HostName).trim();
+  if (s.Hostname) return String(s.Hostname).trim();
+
+  // BUMMER: {publicName:{ru:"Bummer Main", en:"…"}}
+  var pn = s.publicName;
+  if (pn) {
+    if (typeof pn === 'object') {
+      var loc = pn.ru || pn.en || pn.name;
+      if (loc) return String(loc).trim();
+    } else if (typeof pn === 'string') {
+      return pn.trim();
+    }
+  }
+
   var n = s.name || s.title || s.serverName || s.server_name || s.hostname || s.host;
   return n ? String(n).trim() : 'Сервер ' + (i + 1);
 }
@@ -382,9 +449,8 @@ function sumOnline(data, filter, fallbackName) {
   filter = filter || '';
 
   if (filter && list.length) {
-    list = list.filter(function(s) {
-      var nm = (s && s.name ? String(s.name) : '').toLowerCase();
-      return nm.indexOf(filter) !== -1;
+    list = list.filter(function(s, i) {
+      return nameOf(s, i).toLowerCase().indexOf(filter) !== -1;
     });
   }
 
@@ -401,7 +467,7 @@ function sumOnline(data, filter, fallbackName) {
     var one = data.response && typeof data.response === 'object' ? data.response : data;
     sum = playingOf(one);
     max = maxOf(one);
-    servers.push({name: one.Name || one.name || fallbackName || 'Сервер', online: sum, max: max, up: true, ip: ipOf(one)});
+    servers.push({name: nameOf(one, 0) || fallbackName || 'Сервер', online: sum, max: max, up: true, ip: ipOf(one)});
   }
 
   // MYRUST — только если не фильтруем
@@ -510,28 +576,127 @@ function render() {
 
   var all = 0;
   items.forEach(function(s) { all += s.online || 0; });
-  $("tOn").textContent = all.toLocaleString("ru");
+  setCount($("tOn"), all);
   $("tSrv").textContent = items.length;
 
-  $("list").innerHTML = items.length ? items.map(function(s) {
+  patchList(items);
+}
+function cardHtml(s) {
     var n = s.online || 0;
     var onlineTxt = s.online === null ? (s.error ? '<span class="err">нет данных</span>' : '…') : n.toLocaleString("ru");
-    var bar = '', pct = '';
-    if (s.max && s.online !== null) {
-      var p = Math.min(100, Math.round(n / s.max * 100));
-      bar = '<div class="bar' + (p >= 100 ? ' full' : '') + '"><span style="width:' + p + '%"></span></div>';
-      pct = '<small>' + p + '%</small>';
-    }
+    var has = s.max && s.online !== null, p = has ? Math.min(100, Math.round(n / s.max * 100)) : 0;
+    var bar = '<div class="bar' + (p >= 100 ? ' full' : '') + '"' + (s.online === null || s.max ? '' : ' hidden') + '><span style="width:' + p + '%"></span></div>';
+    var pct = '<small class="pc">' + (has ? p + '%' : '') + '</small>';
     var tags = s.tags.length ? '<div class="vers">' + s.tags.map(function(t) { return '<span class="ver">' + esc(t) + '</span>'; }).join("") + '</div>' : '';
     var rep = '<span class="rep" title="Лайки и дизлайки игроков">👍 ' + (s.likes || 0) + ' &nbsp;👎 ' + (s.dislikes || 0) + '</span>';
     var dev = s.dev ? '<span class="dev" title="Номер девблога">DEVBLOG #' + esc(s.dev) + '</span>' : '';
     var bgs = (rep || dev) ? '<div class="bgs">' + rep + dev + '</div>' : '';
     return '<div class="card" style="--c:' + s.c + '"><div class="top"><div class="dot">' + iconHtml(s) + '</div><div class="nm">' + esc(s.name) + '</div>' + bgs + '</div>' +
       tags + bar +
-      '<div class="foot"><span><b>' + onlineTxt + '</b> <small>' + (s.max ? '/ ' + s.max + ' ' : '') + 'онлайн</small></span>' + pct + '</div>' +
+      '<div class="foot"><span><b>' + onlineTxt + '</b> <small class="mx">' + (s.max ? '/ ' + s.max + ' ' : '') + 'онлайн</small></span>' + pct + '</div>' +
       '<div class="act"><button class="ip" data-s="' + esc(s.site) + '" title="Скопировать ссылку"><span>' + esc(host(s.site)) + '</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>' +
       '<button class="btn" data-i="' + SERVERS.indexOf(s) + '">Описание</button></div></div>';
-  }).join("") : '<div class="empty">Нет проектов с таким тегом</div>';
+}
+
+// ===== обновление списка без перерисовки: карточки правятся на месте =====
+var CARDS = {}, REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+// число плавно «докручивается» до нового значения
+function setCount(b, target) {
+  var from = b.dataset.v === undefined ? target : +b.dataset.v;
+  b.dataset.v = target;
+  cancelAnimationFrame(b._r);
+  if (REDUCED || from === target) { b.textContent = target.toLocaleString("ru"); return; }
+  var t0 = performance.now();
+  (function step(t) {
+    var k = Math.min(1, (t - t0) / 700), e = 1 - Math.pow(1 - k, 3);
+    b.textContent = Math.round(from + (target - from) * e).toLocaleString("ru");
+    if (k < 1) b._r = requestAnimationFrame(step);
+  })(t0);
+}
+function cardSig(s) { return [s.dev, s.tags.join(), s.name].join('|'); }
+function makeCard(s, i) {
+  var t = document.createElement('div');
+  t.innerHTML = cardHtml(s);
+  var el = t.firstElementChild;
+  el.dataset.ci = i; el.dataset.sig = cardSig(s);
+  return el;
+}
+function cardPatch(el, s) {
+  var b = el.querySelector('.foot b');
+  if (s.online === null) { b.innerHTML = s.error ? '<span class="err">нет данных</span>' : '…'; delete b.dataset.v; }
+  else setCount(b, s.online);
+  var has = s.max && s.online !== null, p = has ? Math.min(100, Math.round(s.online / s.max * 100)) : 0;
+  var bar = el.querySelector('.bar');
+  bar.hidden = !(s.online === null || s.max);
+  bar.firstElementChild.style.width = p + '%';
+  bar.classList.toggle('full', p >= 100);
+  el.querySelector('.pc').textContent = has ? p + '%' : '';
+  el.querySelector('.mx').textContent = (s.max ? '/ ' + s.max + ' ' : '') + 'онлайн';
+  el.querySelector('.rep').innerHTML = '👍 ' + (s.likes || 0) + ' &nbsp;👎 ' + (s.dislikes || 0);
+}
+function patchList(items) {
+  var list = $("list"), prev = {}, born = [], want = {};
+  var em = list.querySelector('.empty'); if (em) list.removeChild(em);
+  Array.prototype.forEach.call(list.children, function(c) { prev[c.dataset.ci] = c.getBoundingClientRect(); });
+  items.forEach(function(s) { want[SERVERS.indexOf(s)] = 1; });
+  Array.prototype.slice.call(list.children).forEach(function(c) { if (!want[c.dataset.ci]) list.removeChild(c); });
+  if (!items.length) { list.innerHTML = '<div class="empty">Нет проектов с таким тегом</div>'; return; }
+
+  var cursor = list.firstElementChild;
+  items.forEach(function(s) {
+    var i = SERVERS.indexOf(s), el = CARDS[i];
+    if (!el) { el = CARDS[i] = makeCard(s, i); born.push(el); }
+    else if (el.dataset.sig !== cardSig(s)) {
+      var ne = makeCard(s, i);
+      if (el.parentNode) list.replaceChild(ne, el); else born.push(ne);
+      if (cursor === el) cursor = ne;
+      CARDS[i] = el = ne;
+    } else {
+      cardPatch(el, s);
+      if (!el.parentNode) born.push(el);
+    }
+    if (el === cursor) cursor = cursor.nextElementSibling; else list.insertBefore(el, cursor);
+  });
+
+  // появление новых карточек: волной, полоски заполняются с нуля
+  born.forEach(function(el, k) {
+    var sp = el.querySelector('.bar span'), w = sp.style.width;
+    if (!REDUCED) {
+      el.classList.add('in');
+      el.style.animationDelay = Math.min(k, 12) * 45 + 'ms';
+      el.addEventListener('animationend', function h(e) {
+        if (e.target !== el) return;
+        el.classList.remove('in'); el.style.animationDelay = '';
+        el.removeEventListener('animationend', h);
+      });
+      sp.style.width = '0%';
+      void sp.offsetWidth;
+      sp.style.transitionDelay = Math.min(k, 12) * 45 + 150 + 'ms';
+      sp.style.width = w;
+      setTimeout(function() { sp.style.transitionDelay = ''; }, 1500);
+    }
+  });
+
+  // смена порядка: карточки плавно переезжают на новые места (FLIP)
+  if (REDUCED) return;
+  var moves = [];
+  items.forEach(function(s) {
+    var i = SERVERS.indexOf(s), el = CARDS[i], pr = prev[i];
+    if (!pr || born.indexOf(el) !== -1) return;
+    var r = el.getBoundingClientRect(), dx = pr.left - r.left, dy = pr.top - r.top;
+    if (Math.abs(dx) > 1 || Math.abs(dy) > 1) moves.push([el, dx, dy]);
+  });
+  moves.forEach(function(m) { m[0].style.transition = 'none'; m[0].style.transform = 'translate(' + m[1] + 'px,' + m[2] + 'px)'; });
+  if (moves.length) void list.offsetWidth;
+  moves.forEach(function(m) {
+    var el = m[0];
+    el.style.transition = 'transform .7s var(--ease)';
+    el.style.transform = '';
+    el.addEventListener('transitionend', function h(e) {
+      if (e.target !== el || e.propertyName !== 'transform') return;
+      el.style.transition = ''; el.removeEventListener('transitionend', h);
+    });
+  });
 }
 var MAX_SHOTS = 20;
 // Ищем screenshots/serverN/1.png, 2.png … пока файлы существуют.
@@ -624,7 +789,67 @@ function rvSubmit() {
     .catch(function(e) { if (cur === i) { m.className = 'rv-m err'; m.textContent = e.message || 'Ошибка'; } })
     .then(function() { if ($("rvb")) $("rvb").disabled = false; });
 }
-function renderSv() { if ($("svw")) $("svw").innerHTML = svHtml(SERVERS[cur]); }
+// ===== календарь вайпов (serverwipe.txt) =====
+// НАЗВАНИЕ|ДНИ ВАЙПА|[ВРЕМЯ/ПРИМЕЧАНИЕ]; дни: пн..вс, 2026-10-10, «каждые 6 с 2026-10-03»
+var WIPES = {}, CAL_DAYS = 35;
+var WD_MAP = {'вс':0,'пн':1,'вт':2,'ср':3,'чт':4,'пт':5,'сб':6,
+  'воскресенье':0,'понедельник':1,'вторник':2,'среда':3,'четверг':4,'пятница':5,'суббота':6,
+  'sun':0,'mon':1,'tue':2,'wed':3,'thu':4,'fri':5,'sat':6};
+var WD_SHORT = ['ВС','ПН','ВТ','СР','ЧТ','ПТ','СБ'];
+var MONTHS = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+function utcDay(y, m, d) { return Date.UTC(y, m, d) / 864e5; }
+function parseWipes(text) {
+  var res = {};
+  text.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l && l[0] !== '#'; }).forEach(function(line) {
+    var p = line.split('|').map(function(x) { return x.trim(); });
+    if (p.length < 2 || !p[0]) return;
+    var rules = [];
+    p[1].split(',').forEach(function(tok) {
+      tok = tok.trim().toLowerCase();
+      if (!tok) return;
+      var m;
+      if (WD_MAP.hasOwnProperty(tok)) rules.push({wd: WD_MAP[tok]});
+      else if ((m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(tok))) rules.push({day: utcDay(+m[1], m[2] - 1, +m[3])});
+      else if ((m = /^(?:каждые|every)\s+(\d+)\s+(?:с|from)\s+(\d{4})-(\d{2})-(\d{2})$/.exec(tok)) && +m[1] > 0)
+        rules.push({every: +m[1], from: utcDay(+m[2], m[3] - 1, +m[4])});
+    });
+    res[p[0].toLowerCase()] = {rules: rules, note: p[2] || ''};
+  });
+  return res;
+}
+function isWipeDay(rules, day, wd) {
+  return rules.some(function(r) {
+    if (r.wd !== undefined) return r.wd === wd;
+    if (r.day !== undefined) return r.day === day;
+    var diff = day - r.from;
+    return diff >= 0 && diff % r.every === 0;
+  });
+}
+function calHtml(s) {
+  var w = WIPES[s.name.toLowerCase()];
+  var head = function(sub) { return '<div class="cal-h"><span>Календарь вайпов</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; };
+  if (!w || !w.rules.length) return head('') + '<div class="cal-e">Дни вайпа не указаны</div>';
+  var now = new Date(), t0 = utcDay(now.getFullYear(), now.getMonth(), now.getDate());
+  var tiles = '', next = null;
+  for (var i = 0; i < CAL_DAYS; i++) {
+    var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+    var wd = d.getDay(), wipe = isWipeDay(w.rules, t0 + i, wd);
+    if (wipe && !next) next = {i: i, d: d, wd: wd};
+    tiles += '<div class="cal-d' + (i === 0 ? ' today' : '') + (wipe ? ' wipe' : '') + '"' + (wipe ? ' title="Вайп"' : '') + '>' +
+      (d.getDate() === 1 || i === 0 ? '<em>' + MONTHS[d.getMonth()] + '</em>' : '') +
+      '<i>' + WD_SHORT[wd] + '</i><b>' + d.getDate() + '</b><u>ВАЙП</u></div>';
+  }
+  var sub = next
+    ? 'Ближайший: ' + WD_SHORT[next.wd].toLowerCase() + ', ' + next.d.getDate() + ' ' + MONTHS[next.d.getMonth()] + ' · ' + (next.i === 0 ? 'сегодня' : next.i === 1 ? 'завтра' : 'через ' + next.i + ' дн.')
+    : 'в ближайшие ' + CAL_DAYS + ' дн. вайпов нет';
+  return head(esc(sub)) + '<div class="cal-s" tabindex="0" aria-label="Календарь вайпов">' + tiles + '</div>' +
+    '<div class="cal-lg"><span>Вайп' + (w.note ? ' · ' + esc(w.note) : '') + '</span><span>Сегодня</span></div>';
+}
+function renderSv() {
+  var w = $("svw"); if (!w) return;
+  var h = svHtml(SERVERS[cur]);
+  if (w._h !== h) { w.innerHTML = h; w._h = h; }   // не трогаем DOM, если ничего не изменилось
+}
 function closeM() { $("mo").classList.remove("show"); cur = null; }
 function openM(i) {
   var s = SERVERS[i];
@@ -639,7 +864,7 @@ function openM(i) {
     '<h2>' + esc(s.name) + '</h2>' +
     '<div class="vers">' + (s.dev ? '<span class="dev">DEVBLOG #' + esc(s.dev) + '</span>' : '') + threatHtml(s) + '</div>' +
     '<div id="shw"></div>' +
-    (s.desc ? '<p>' + esc(s.desc) + '</p>' : '') + tagsHtml + installHtml(s) +
+    (s.desc ? '<p>' + esc(s.desc) + '</p>' : '') + calHtml(s) + tagsHtml + installHtml(s) +
     '<div id="svw">' + svHtml(s) + '</div>' + rvShell(s) + socialsHtml;
   $("md").scrollTop = 0;
   $("mo").classList.add("show");
@@ -660,6 +885,86 @@ document.addEventListener("submit", function(e) {
   if (e.target.id === "rvf") { e.preventDefault(); rvSubmit(); }
   else if (e.target.id === "fmf") { e.preventDefault(); fmSubmit(); }
 });
+
+// ===== просмотр скриншотов крупно =====
+var LB = {on: false, i: 0, z: 1, x: 0, y: 0, shots: []}, lbPt = {}, lbD0 = 0, lbMoved = false, lbSX = 0, lbT = null;
+function lbApply() {
+  var im = $("lbi");
+  im.style.transform = 'translate(' + LB.x + 'px,' + LB.y + 'px) scale(' + LB.z + ')';
+  im.style.cursor = LB.z > 1 ? 'grab' : 'zoom-in';
+  $("lbc").innerHTML = (LB.i + 1) + ' / ' + LB.shots.length + '<small>' + (LB.z > 1 ? Math.round(LB.z * 100) + '%' : 'нажмите, чтобы приблизить') + '</small>';
+}
+function lbShow(k) {
+  var n = LB.shots.length;
+  LB.i = ((k % n) + n) % n; LB.z = 1; LB.x = 0; LB.y = 0;
+  $("lbi").src = LB.shots[LB.i];
+  Array.prototype.forEach.call(document.querySelectorAll('.lb-p,.lb-n'), function(b) { b.style.display = n > 1 ? '' : 'none'; });
+  lbApply();
+  if (n > 1) { new Image().src = LB.shots[(LB.i + 1) % n]; }
+}
+function lbOpen(k) {
+  var s = SERVERS[cur];
+  if (!s || !s.shots || !s.shots.length) return;
+  LB.shots = s.shots; LB.on = true;
+  $("lb").classList.add("show");
+  lbShow(k);
+}
+function lbClose() {
+  if (!LB.on) return;
+  LB.on = false; lbPt = {};
+  $("lb").classList.remove("show");
+  if (cur !== null && $("sht")) showShot(LB.i);
+}
+function lbZoomAt(nz, cx, cy) {
+  nz = Math.max(1, Math.min(6, nz));
+  if (nz === 1) { LB.x = 0; LB.y = 0; }
+  else { var r = nz / LB.z; LB.x = cx - (cx - LB.x) * r; LB.y = cy - (cy - LB.y) * r; }
+  LB.z = nz; lbApply();
+}
+(function() {
+  var st = $("lbs");
+  function ctr(e) { return {x: e.clientX - window.innerWidth / 2, y: e.clientY - window.innerHeight / 2}; }
+  function dist() { var k = Object.keys(lbPt); return Math.hypot(lbPt[k[0]].x - lbPt[k[1]].x, lbPt[k[0]].y - lbPt[k[1]].y); }
+  st.addEventListener('pointerdown', function(e) {
+    try { st.setPointerCapture(e.pointerId); } catch (x) {}
+    st.classList.add('drag');
+    lbPt[e.pointerId] = {x: e.clientX, y: e.clientY};
+    if (Object.keys(lbPt).length === 1) { lbMoved = false; lbSX = e.clientX; lbT = e.target; }
+    else { lbD0 = dist(); lbMoved = true; }
+  });
+  st.addEventListener('pointermove', function(e) {
+    var p = lbPt[e.pointerId]; if (!p) return;
+    var n = Object.keys(lbPt).length;
+    if (n >= 2) {
+      var old = p; lbPt[e.pointerId] = {x: e.clientX, y: e.clientY};
+      var d = dist(), k = Object.keys(lbPt), m = ctr({clientX: (lbPt[k[0]].x + lbPt[k[1]].x) / 2, clientY: (lbPt[k[0]].y + lbPt[k[1]].y) / 2});
+      if (lbD0) lbZoomAt(LB.z * d / lbD0, m.x, m.y);
+      lbD0 = d; return;
+    }
+    var dx = e.clientX - p.x, dy = e.clientY - p.y;
+    if (Math.abs(e.clientX - lbSX) > 4 || Math.abs(dy) > 4) lbMoved = lbMoved || Math.abs(e.clientX - lbSX) > 4;
+    if (LB.z > 1) { LB.x += dx; LB.y += dy; lbMoved = lbMoved || Math.hypot(dx, dy) > 1; lbApply(); }
+    lbPt[e.pointerId] = {x: e.clientX, y: e.clientY};
+  });
+  function up(e) {
+    if (!lbPt[e.pointerId]) return;
+    var multi = Object.keys(lbPt).length > 1;
+    delete lbPt[e.pointerId];
+    if (!Object.keys(lbPt).length) st.classList.remove('drag');
+    if (multi) { lbD0 = 0; return; }
+    var dx = e.clientX - lbSX;
+    if (LB.z === 1 && Math.abs(dx) > 50 && LB.shots.length > 1) { lbShow(LB.i + (dx < 0 ? 1 : -1)); return; }
+    if (lbMoved) return;
+    if (lbT === $("lbi")) { if (LB.z > 1) lbZoomAt(1, 0, 0); else { var c = ctr(e); lbZoomAt(2.5, c.x, c.y); } }
+    else lbClose();
+  }
+  st.addEventListener('pointerup', up);
+  st.addEventListener('pointercancel', function(e) { delete lbPt[e.pointerId]; lbD0 = 0; if (!Object.keys(lbPt).length) st.classList.remove('drag'); });
+  st.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    var c = ctr(e); lbZoomAt(LB.z * (e.deltaY < 0 ? 1.2 : 1 / 1.2), c.x, c.y);
+  }, {passive: false});
+})();
 
 // ===== анкета проекта =====
 var FM_FILES = [], FM_MAX = 10, FM_FILE = 5 * 1024 * 1024, FM_TOTAL = 8 * 1024 * 1024;
@@ -728,7 +1033,10 @@ function copy(b) {
 }
 document.addEventListener("click", function(e) {
   var t = e.target.closest("button") || e.target;
-  if (t.id === "addBtn") fmOpen();
+  var fig = e.target.tagName === "IMG" && e.target.closest("#sht figure");
+  if (t.dataset && t.dataset.lb) { if (t.dataset.lb === "x") lbClose(); else lbShow(LB.i + (+t.dataset.lb)); }
+  else if (fig) lbOpen(Array.prototype.indexOf.call($("sht").children, fig));
+  else if (t.id === "addBtn") fmOpen();
   else if (t.dataset.fc || e.target === $("mo2")) fmClose();
   else if (t.dataset.rm !== undefined) { FM_FILES.splice(+t.dataset.rm, 1); fmPreview(); fmMsg(''); }
   else if (t.classList.contains("pill")) { F = t.dataset.v; pills(); render(); }
@@ -753,6 +1061,14 @@ document.addEventListener("error", function(e) {
   }
 }, true);
 document.addEventListener("keydown", function(e) {
+  if (LB.on) {
+    if (e.key === "Escape") lbClose();
+    else if (e.key === "ArrowLeft") lbShow(LB.i - 1);
+    else if (e.key === "ArrowRight") lbShow(LB.i + 1);
+    else if (e.key === "+" || e.key === "=") lbZoomAt(LB.z * 1.4, 0, 0);
+    else if (e.key === "-") lbZoomAt(LB.z / 1.4, 0, 0);
+    return;
+  }
   if (e.key === "Escape" && $("mo2").classList.contains("show")) { fmClose(); return; }
   if (cur === null) return;
   var ae = document.activeElement;
@@ -778,6 +1094,12 @@ fetch("servers.txt", {cache: 'no-store'})
   .then(function(text) {
     SERVERS = parseServers(text);
     if (!SERVERS.length) throw new Error("servers.txt пуст или имеет неверный формат");
+    // дни вайпа — необязательный файл: если его нет, сайт работает как раньше
+    return fetch("serverwipe.txt", {cache: 'no-store'})
+      .then(function(r) { return r.ok ? r.text() : ''; })
+      .then(function(t) { WIPES = parseWipes(t); }, function() {});
+  })
+  .then(function() {
     pills();
     render();
     refreshAll();
