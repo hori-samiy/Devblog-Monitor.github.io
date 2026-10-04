@@ -3,6 +3,7 @@ import reviews
 import submissions
 import urllib.request
 import urllib.error
+import json as _json
 import os
 
 # Папка, откуда отдаются index.html, servers.txt и прочая статика
@@ -11,11 +12,16 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__, static_folder=None)
 app.config["MAX_CONTENT_LENGTH"] = 12 * 1024 * 1024  # анкета со скриншотами
 
+# Значение — либо строка (один URL), либо список строк (несколько URL).
+# Несколько URL опрашиваются параллельно, ответы склеиваются в JSON-массив.
 API_TARGETS = {
     "/api/shock":   "https://shockproject.pro/api/servers",
     "/api/myrust":  "https://myrust.ru/api/servers",
     "/api/bummer":  "https://bummerrust.com/api/v1/servers",
-    "/api/yrs":     "https://yrsproject.gamestores.app/api/v1/widgets.monitoring",
+    "/api/yrs":     [
+        "https://api.yrsproject.ru/public/server/GetInfo/185.207.214.78/35000",
+        "https://api.yrsproject.ru/public/server/GetInfo/185.207.214.78/35001",
+    ],
     "/api/hirust":  "https://www.hirust.online/api/status",
     "/api/company": "https://companyrust.gamestores.app/api/v1/widgets.monitoring",
     "/api/magix":   "https://magixrust.gamestores.app/api/v1/widgets.monitoring",
@@ -25,9 +31,8 @@ API_TARGETS = {
     "/api/sunfire": "https://sunfirenew.gamestores.app/api/v1/widgets.monitoring",
     "/api/wooh":    "https://woohrust.gamestores.app/api/v1/widgets.monitoring",
     "/api/veil":    "https://veilrust.gamestores.app/api/v1/widgets.monitoring",
-    "/api/old":    "https://oldrust.store/api/v1/widgets.monitoring",
+    "/api/old":     "https://oldrust.store/api/v1/widgets.monitoring",
     "/api/snow":    "https://free-rust.pro/api/servers.json",
-    "/api/eclipse":    "https://eclipseshop.gamestores.app/api/v1/widgets.monitoring",
 }
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -44,6 +49,11 @@ def index():
 @app.route("/servers.txt")
 def servers_txt():
     return send_from_directory(BASE_DIR, "servers.txt")
+
+
+@app.route("/serverwipe.txt")
+def serverwipe_txt():
+    return send_from_directory(BASE_DIR, "serverwipe.txt")
 
 
 # Отдаём любые статические файлы (картинки, css, js) из корня проекта
@@ -104,30 +114,57 @@ def proxy(name):
     if path not in API_TARGETS:
         return {"error": "Unknown endpoint"}, 404
 
-    target = API_TARGETS[path]
+    targets = API_TARGETS[path]
+    if isinstance(targets, str):
+        targets = [targets]
 
-    # Прокидываем query-параметры (например, ?name=MAGIX)
-    if request.query_string:
-        target += "?" + request.query_string.decode()
+    # Прокидываем query-параметры (например, ?name=MAGIX) в каждый URL
+    qs = ("?" + request.query_string.decode()) if request.query_string else ""
 
-    try:
-        req = urllib.request.Request(target, headers={
-            "User-Agent": UA,
-            "Accept": "application/json, text/plain, */*",
-        })
-        with urllib.request.urlopen(req, timeout=15) as r:
-            body = r.read()
-            ctype = r.headers.get("Content-Type", "application/json")
+    responses = []  # список кортежей (body | None, ctype | error)
+    for target in targets:
+        url = target + qs
+        try:
+            req = urllib.request.Request(url, headers={
+                "User-Agent": UA,
+                "Accept": "application/json, text/plain, */*",
+            })
+            with urllib.request.urlopen(req, timeout=15) as r:
+                body = r.read()
+                ctype = r.headers.get("Content-Type", "application/json")
+            responses.append((body, ctype))
+        except urllib.error.HTTPError as e:
+            responses.append((None, "HTTP " + str(e.code)))
+        except Exception as e:
+            responses.append((None, str(e)))
 
+    # Один URL — отдаём как раньше, без обёртки (фронт получит тот же формат, что и раньше)
+    if len(responses) == 1:
+        body, ctype = responses[0]
+        if body is None:
+            return {"error": ctype}, 502
         resp = Response(body, content_type=ctype)
         resp.headers["Access-Control-Allow-Origin"] = "*"
         resp.headers["Cache-Control"] = "no-store"
         return resp
 
-    except urllib.error.HTTPError as e:
-        return {"error": "HTTP " + str(e.code)}, e.code
-    except Exception as e:
-        return {"error": str(e)}, 502
+    # Несколько URL — склеиваем JSON-ответы в массив.
+    # Ошибки тоже попадают в массив как {"error": "..."},
+    # чтобы фронт мог их проигнорировать и использовать успешные ответы.
+    merged = []
+    for body, ctype in responses:
+        if body is None:
+            merged.append({"error": ctype})
+        else:
+            try:
+                merged.append(_json.loads(body.decode("utf-8", "replace")))
+            except Exception:
+                merged.append({"raw": body.decode("utf-8", "replace")})
+
+    resp = Response(_json.dumps(merged, ensure_ascii=False), content_type="application/json")
+    resp.headers["Access-Control-Allow-Origin"] = "*"
+    resp.headers["Cache-Control"] = "no-store"
+    return resp
 
 
 # ===================== ЗАПУСК =====================
